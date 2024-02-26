@@ -9,11 +9,7 @@ const {HelperClient} = require("discord-helper.js");
  * @param {Client} client
  */
 module.exports = async (client) => {
-
-
     let commands = client.application.commands;
-
-
 
     for (const dir of readdirSync("./Commands/")) {
         const commands2 = readdirSync(`./Commands/${dir}/`).filter(f => f.endsWith('.js'));
@@ -22,10 +18,7 @@ module.exports = async (client) => {
             let pull = require(`../Commands/${dir}/${file}`);
 
             await client.commands.set(pull.name, pull);
-
             let { name, options, description, perm } = pull;
-
-
 
             await new HelperClient(client).GlobalcommandRegisterAsync({name, description, options, permission: perm});
         }
