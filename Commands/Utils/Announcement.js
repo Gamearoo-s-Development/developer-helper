@@ -39,7 +39,7 @@ module.exports = {
         let content = interaction.options.getAttachment("content");
         let mentionRole = interaction.options.getRole("mention", false);
 
-        if (content.contentType !== "text/plain") {
+        if (!content.contentType.startsWith("text/plain")) {
             await interaction.reply({ content: "The file must be a text file", ephemeral: true });
             return;
         }
@@ -61,7 +61,7 @@ module.exports = {
             .setFooter({ text: `Announcement - ${interaction.guild.name}`, iconURL: interaction.guild.iconURL() })
             .setTimestamp();
 
-        const channel = client.channels.cache.get(config.ANNOUNCEMENT_CHANNEL_ID);
+        const channel = client.channels.cache.get(config.ANNOUNCEMENT_CHANNEL_ID) || await client.channels.fetch(config.ANNOUNCEMENT_CHANNEL_ID);
         if (!channel || channel.type !== ChannelType.GuildText) {
             await interaction.reply({content: "The announcement channel was not found", ephemeral: true});
             return;

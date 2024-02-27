@@ -25,7 +25,7 @@ module.exports = {
         if (!command) {
             interaction.reply(`${commandName} was removed!`);
             commands.delete(interaction.commandId).then(cmd => {
-                new Logger.warnAsync(`${commandName} was not found so i removed it`, "Bot");
+                Logger.warnAsync(`${commandName} was not found so i removed it`, "Bot");
             })
             return;
         }

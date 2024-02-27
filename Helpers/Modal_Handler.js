@@ -13,8 +13,9 @@ module.exports = async (interaction, client) => {
         const suggestionContent = interaction.fields.getTextInputValue("suggestionContent");
         await interaction.deferReply({ ephemeral: true });
 
-        const channel = interaction.guild.channels.cache.get(config.suggestionChannel);
+        const channel = interaction.guild.channels.cache.get(config.SUGGESTION_CHANNEL_ID) || await interaction.guild.channels.fetch(config.SUGGESTION_CHANNEL_ID);
         if (!channel || channel.type !== ChannelType.GuildText) {
+            console.log(channel)
             await interaction.editReply({ content: "The suggestion channel is not setup properly" });
             return;
         }
