@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
-module.exports = {BOT_TOKEN} = process.env
+module.exports = process.env;
 

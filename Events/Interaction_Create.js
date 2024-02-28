@@ -1,4 +1,4 @@
-const { Interaction, PermissionsBitField } = require('discord.js');
+const { BaseInteraction, PermissionsBitField } = require('discord.js');
 const {Logger} = require("../Helpers/Logger");
 
 
@@ -7,11 +7,14 @@ module.exports = {
     once: false,
     /**
      *
-     * @param {Interaction} interaction
+     * @param {BaseInteraction} interaction
      */
     async run(interaction) {
         const client = interaction.client;
         const { commandName } = interaction;
+        if (interaction.isModalSubmit()) {
+            return require("../Helpers/Modal_Handler")(interaction, client);
+        }
         if (!interaction.isCommand()) return null;
 
         let command = client.commands.get(commandName);
@@ -22,7 +25,7 @@ module.exports = {
         if (!command) {
             interaction.reply(`${commandName} was removed!`);
             commands.delete(interaction.commandId).then(cmd => {
-                new Logger.warnAsync(`${commandName} was not found so i removed it`, "Bot");
+                Logger.warnAsync(`${commandName} was not found so i removed it`, "Bot");
             })
             return;
         }
